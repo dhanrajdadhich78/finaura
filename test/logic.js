@@ -51,9 +51,9 @@ describe('#' + namespace, () => {
     // This is the factory for creating instances of types.
     let factory;
 
-    // These are the identities for Alice and Bob.
-    const aliceCardName = 'alice';
-    const bobCardName = 'bob';
+    // These are the identities for Soniya and Dhanraj.
+    const soniyaCardName = 'soniya';
+    const dhanrajCardName = 'dhanraj';
 
     // These are a list of receieved events.
     let events;
@@ -126,33 +126,33 @@ describe('#' + namespace, () => {
 
         const participantRegistry = await businessNetworkConnection.getParticipantRegistry(participantNS);
         // Create the participants.
-        const alice = factory.newResource(namespace, participantType, 'alice@email.com');
-        alice.firstName = 'Alice';
-        alice.lastName = 'A';
+        const soniya = factory.newResource(namespace, participantType, 'soniya@dfrozensoft.com');
+        soniya.firstName = 'Soniya';
+        soniya.lastName = 'Dadhich';
 
-        const bob = factory.newResource(namespace, participantType, 'bob@email.com');
-        bob.firstName = 'Bob';
-        bob.lastName = 'B';
+        const dhanraj = factory.newResource(namespace, participantType, 'dhanraj@dfrozensoft.com');
+        dhanraj.firstName = 'Dhanraj';
+        dhanraj.lastName = 'Dadhich';
 
-        participantRegistry.addAll([alice, bob]);
+        participantRegistry.addAll([soniya, dhanraj]);
 
         const assetRegistry = await businessNetworkConnection.getAssetRegistry(assetNS);
         // Create the assets.
         const asset1 = factory.newResource(namespace, assetType, '1');
-        asset1.owner = factory.newRelationship(namespace, participantType, 'alice@email.com');
+        asset1.owner = factory.newRelationship(namespace, participantType, 'soniya@dfrozensoft.com');
         asset1.value = '10';
 
         const asset2 = factory.newResource(namespace, assetType, '2');
-        asset2.owner = factory.newRelationship(namespace, participantType, 'bob@email.com');
+        asset2.owner = factory.newRelationship(namespace, participantType, 'dhanraj@dfrozensoft.com');
         asset2.value = '20';
 
         assetRegistry.addAll([asset1, asset2]);
 
         // Issue the identities.
-        let identity = await businessNetworkConnection.issueIdentity(participantNS + '#alice@email.com', 'alice1');
-        await importCardForIdentity(aliceCardName, identity);
-        identity = await businessNetworkConnection.issueIdentity(participantNS + '#bob@email.com', 'bob1');
-        await importCardForIdentity(bobCardName, identity);
+        let identity = await businessNetworkConnection.issueIdentity(participantNS + '#soniya@dfrozensoft.com', 'soniya1');
+        await importCardForIdentity(soniyaCardName, identity);
+        identity = await businessNetworkConnection.issueIdentity(participantNS + '#dhanraj@dfrozensoft.com', 'dhanraj1');
+        await importCardForIdentity(dhanrajCardName, identity);
     });
 
     /**
@@ -170,45 +170,45 @@ describe('#' + namespace, () => {
         factory = businessNetworkConnection.getBusinessNetwork().getFactory();
     }
 
-    it('Alice can read all of the assets', async () => {
-        // Use the identity for Alice.
-        await useIdentity(aliceCardName);
+    it('Soniya can read all of the assets', async () => {
+        // Use the identity for Soniya.
+        await useIdentity(soniyaCardName);
         const assetRegistry = await businessNetworkConnection.getAssetRegistry(assetNS);
         const assets = await assetRegistry.getAll();
 
         // Validate the assets.
         assets.should.have.lengthOf(2);
         const asset1 = assets[0];
-        asset1.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#alice@email.com');
+        asset1.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#soniya@dfrozensoft.com');
         asset1.value.should.equal('10');
         const asset2 = assets[1];
-        asset2.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#bob@email.com');
+        asset2.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#dhanraj@dfrozensoft.com');
         asset2.value.should.equal('20');
     });
 
-    it('Bob can read all of the assets', async () => {
-        // Use the identity for Bob.
-        await useIdentity(bobCardName);
+    it('Dhanraj can read all of the assets', async () => {
+        // Use the identity for Dhanraj.
+        await useIdentity(dhanrajCardName);
         const assetRegistry = await businessNetworkConnection.getAssetRegistry(assetNS);
         const assets = await assetRegistry.getAll();
 
         // Validate the assets.
         assets.should.have.lengthOf(2);
         const asset1 = assets[0];
-        asset1.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#alice@email.com');
+        asset1.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#soniya@dfrozensoft.com');
         asset1.value.should.equal('10');
         const asset2 = assets[1];
-        asset2.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#bob@email.com');
+        asset2.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#dhanraj@dfrozensoft.com');
         asset2.value.should.equal('20');
     });
 
-    it('Alice can add assets that she owns', async () => {
-        // Use the identity for Alice.
-        await useIdentity(aliceCardName);
+    it('Soniya can add assets that she owns', async () => {
+        // Use the identity for Soniya.
+        await useIdentity(soniyaCardName);
 
         // Create the asset.
         let asset3 = factory.newResource(namespace, assetType, '3');
-        asset3.owner = factory.newRelationship(namespace, participantType, 'alice@email.com');
+        asset3.owner = factory.newRelationship(namespace, participantType, 'soniya@dfrozensoft.com');
         asset3.value = '30';
 
         // Add the asset, then get the asset.
@@ -217,17 +217,17 @@ describe('#' + namespace, () => {
 
         // Validate the asset.
         asset3 = await assetRegistry.get('3');
-        asset3.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#alice@email.com');
+        asset3.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#soniya@dfrozensoft.com');
         asset3.value.should.equal('30');
     });
 
-    it('Alice cannot add assets that Bob owns', async () => {
-        // Use the identity for Alice.
-        await useIdentity(aliceCardName);
+    it('Soniya cannot add assets that Dhanraj owns', async () => {
+        // Use the identity for Soniya.
+        await useIdentity(soniyaCardName);
 
         // Create the asset.
         const asset3 = factory.newResource(namespace, assetType, '3');
-        asset3.owner = factory.newRelationship(namespace, participantType, 'bob@email.com');
+        asset3.owner = factory.newRelationship(namespace, participantType, 'dhanraj@dfrozensoft.com');
         asset3.value = '30';
 
         // Try to add the asset, should fail.
@@ -235,13 +235,13 @@ describe('#' + namespace, () => {
         assetRegistry.add(asset3).should.be.rejectedWith(/does not have .* access to resource/);
     });
 
-    it('Bob can add assets that he owns', async () => {
-        // Use the identity for Bob.
-        await useIdentity(bobCardName);
+    it('Dhanraj can add assets that he owns', async () => {
+        // Use the identity for Dhanraj.
+        await useIdentity(dhanrajCardName);
 
         // Create the asset.
         let asset4 = factory.newResource(namespace, assetType, '4');
-        asset4.owner = factory.newRelationship(namespace, participantType, 'bob@email.com');
+        asset4.owner = factory.newRelationship(namespace, participantType, 'dhanraj@dfrozensoft.com');
         asset4.value = '40';
 
         // Add the asset, then get the asset.
@@ -250,17 +250,17 @@ describe('#' + namespace, () => {
 
         // Validate the asset.
         asset4 = await assetRegistry.get('4');
-        asset4.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#bob@email.com');
+        asset4.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#dhanraj@dfrozensoft.com');
         asset4.value.should.equal('40');
     });
 
-    it('Bob cannot add assets that Alice owns', async () => {
-        // Use the identity for Bob.
-        await useIdentity(bobCardName);
+    it('Dhanraj cannot add assets that Soniya owns', async () => {
+        // Use the identity for Dhanraj.
+        await useIdentity(dhanrajCardName);
 
         // Create the asset.
         const asset4 = factory.newResource(namespace, assetType, '4');
-        asset4.owner = factory.newRelationship(namespace, participantType, 'alice@email.com');
+        asset4.owner = factory.newRelationship(namespace, participantType, 'soniya@dfrozensoft.com');
         asset4.value = '40';
 
         // Try to add the asset, should fail.
@@ -269,13 +269,13 @@ describe('#' + namespace, () => {
 
     });
 
-    it('Alice can update her assets', async () => {
-        // Use the identity for Alice.
-        await useIdentity(aliceCardName);
+    it('Soniya can update her assets', async () => {
+        // Use the identity for Soniya.
+        await useIdentity(soniyaCardName);
 
         // Create the asset.
         let asset1 = factory.newResource(namespace, assetType, '1');
-        asset1.owner = factory.newRelationship(namespace, participantType, 'alice@email.com');
+        asset1.owner = factory.newRelationship(namespace, participantType, 'soniya@dfrozensoft.com');
         asset1.value = '50';
 
         // Update the asset, then get the asset.
@@ -284,17 +284,17 @@ describe('#' + namespace, () => {
 
         // Validate the asset.
         asset1 = await assetRegistry.get('1');
-        asset1.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#alice@email.com');
+        asset1.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#soniya@dfrozensoft.com');
         asset1.value.should.equal('50');
     });
 
-    it('Alice cannot update Bob\'s assets', async () => {
-        // Use the identity for Alice.
-        await useIdentity(aliceCardName);
+    it('Soniya cannot update Dhanraj\'s assets', async () => {
+        // Use the identity for Soniya.
+        await useIdentity(soniyaCardName);
 
         // Create the asset.
         const asset2 = factory.newResource(namespace, assetType, '2');
-        asset2.owner = factory.newRelationship(namespace, participantType, 'bob@email.com');
+        asset2.owner = factory.newRelationship(namespace, participantType, 'dhanraj@dfrozensoft.com');
         asset2.value = '50';
 
         // Try to update the asset, should fail.
@@ -302,13 +302,13 @@ describe('#' + namespace, () => {
         assetRegistry.update(asset2).should.be.rejectedWith(/does not have .* access to resource/);
     });
 
-    it('Bob can update his assets', async () => {
-        // Use the identity for Bob.
-        await useIdentity(bobCardName);
+    it('Dhanraj can update his assets', async () => {
+        // Use the identity for Dhanraj.
+        await useIdentity(dhanrajCardName);
 
         // Create the asset.
         let asset2 = factory.newResource(namespace, assetType, '2');
-        asset2.owner = factory.newRelationship(namespace, participantType, 'bob@email.com');
+        asset2.owner = factory.newRelationship(namespace, participantType, 'dhanraj@dfrozensoft.com');
         asset2.value = '60';
 
         // Update the asset, then get the asset.
@@ -317,17 +317,17 @@ describe('#' + namespace, () => {
 
         // Validate the asset.
         asset2 = await assetRegistry.get('2');
-        asset2.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#bob@email.com');
+        asset2.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#dhanraj@dfrozensoft.com');
         asset2.value.should.equal('60');
     });
 
-    it('Bob cannot update Alice\'s assets', async () => {
-        // Use the identity for Bob.
-        await useIdentity(bobCardName);
+    it('Dhanraj cannot update Soniya\'s assets', async () => {
+        // Use the identity for Dhanraj.
+        await useIdentity(dhanrajCardName);
 
         // Create the asset.
         const asset1 = factory.newResource(namespace, assetType, '1');
-        asset1.owner = factory.newRelationship(namespace, participantType, 'alice@email.com');
+        asset1.owner = factory.newRelationship(namespace, participantType, 'soniya@dfrozensoft.com');
         asset1.value = '60';
 
         // Update the asset, then get the asset.
@@ -336,9 +336,9 @@ describe('#' + namespace, () => {
 
     });
 
-    it('Alice can remove her assets', async () => {
-        // Use the identity for Alice.
-        await useIdentity(aliceCardName);
+    it('Soniya can remove her assets', async () => {
+        // Use the identity for Soniya.
+        await useIdentity(soniyaCardName);
 
         // Remove the asset, then test the asset exists.
         const assetRegistry = await businessNetworkConnection.getAssetRegistry(assetNS);
@@ -347,18 +347,18 @@ describe('#' + namespace, () => {
         exists.should.be.false;
     });
 
-    it('Alice cannot remove Bob\'s assets', async () => {
-        // Use the identity for Alice.
-        await useIdentity(aliceCardName);
+    it('Soniya cannot remove Dhanraj\'s assets', async () => {
+        // Use the identity for Soniya.
+        await useIdentity(soniyaCardName);
 
         // Remove the asset, then test the asset exists.
         const assetRegistry = await businessNetworkConnection.getAssetRegistry(assetNS);
         assetRegistry.remove('2').should.be.rejectedWith(/does not have .* access to resource/);
     });
 
-    it('Bob can remove his assets', async () => {
-        // Use the identity for Bob.
-        await useIdentity(bobCardName);
+    it('Dhanraj can remove his assets', async () => {
+        // Use the identity for Dhanraj.
+        await useIdentity(dhanrajCardName);
 
         // Remove the asset, then test the asset exists.
         const assetRegistry = await businessNetworkConnection.getAssetRegistry(assetNS);
@@ -367,18 +367,18 @@ describe('#' + namespace, () => {
         exists.should.be.false;
     });
 
-    it('Bob cannot remove Alice\'s assets', async () => {
-        // Use the identity for Bob.
-        await useIdentity(bobCardName);
+    it('Dhanraj cannot remove Soniya\'s assets', async () => {
+        // Use the identity for Dhanraj.
+        await useIdentity(dhanrajCardName);
 
         // Remove the asset, then test the asset exists.
         const assetRegistry = await businessNetworkConnection.getAssetRegistry(assetNS);
         assetRegistry.remove('1').should.be.rejectedWith(/does not have .* access to resource/);
     });
 
-    it('Alice can submit a transaction for her assets', async () => {
-        // Use the identity for Alice.
-        await useIdentity(aliceCardName);
+    it('Soniya can submit a transaction for her assets', async () => {
+        // Use the identity for Soniya.
+        await useIdentity(soniyaCardName);
 
         // Submit the transaction.
         const transaction = factory.newTransaction(namespace, 'SampleTransaction');
@@ -391,7 +391,7 @@ describe('#' + namespace, () => {
         const asset1 = await assetRegistry.get('1');
 
         // Validate the asset.
-        asset1.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#alice@email.com');
+        asset1.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#soniya@dfrozensoft.com');
         asset1.value.should.equal('50');
 
         // Validate the events.
@@ -404,9 +404,9 @@ describe('#' + namespace, () => {
         event.newValue.should.equal('50');
     });
 
-    it('Alice cannot submit a transaction for Bob\'s assets', async () => {
-        // Use the identity for Alice.
-        await useIdentity(aliceCardName);
+    it('Soniya cannot submit a transaction for Dhanraj\'s assets', async () => {
+        // Use the identity for Soniya.
+        await useIdentity(soniyaCardName);
 
         // Submit the transaction.
         const transaction = factory.newTransaction(namespace, 'SampleTransaction');
@@ -415,9 +415,9 @@ describe('#' + namespace, () => {
         businessNetworkConnection.submitTransaction(transaction).should.be.rejectedWith(/does not have .* access to resource/);
     });
 
-    it('Bob can submit a transaction for his assets', async () => {
-        // Use the identity for Bob.
-        await useIdentity(bobCardName);
+    it('Dhanraj can submit a transaction for his assets', async () => {
+        // Use the identity for Dhanraj.
+        await useIdentity(dhanrajCardName);
 
         // Submit the transaction.
         const transaction = factory.newTransaction(namespace, 'SampleTransaction');
@@ -430,7 +430,7 @@ describe('#' + namespace, () => {
         const asset2 = await assetRegistry.get('2');
 
         // Validate the asset.
-        asset2.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#bob@email.com');
+        asset2.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#dhanraj@dfrozensoft.com');
         asset2.value.should.equal('60');
 
         // Validate the events.
@@ -443,9 +443,9 @@ describe('#' + namespace, () => {
         event.newValue.should.equal('60');
     });
 
-    it('Bob cannot submit a transaction for Alice\'s assets', async () => {
-        // Use the identity for Bob.
-        await useIdentity(bobCardName);
+    it('Dhanraj cannot submit a transaction for Soniya\'s assets', async () => {
+        // Use the identity for Dhanraj.
+        await useIdentity(dhanrajCardName);
 
         // Submit the transaction.
         const transaction = factory.newTransaction(namespace, 'SampleTransaction');

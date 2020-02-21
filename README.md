@@ -1,6 +1,5 @@
-# Blockchain Bank
-
-Digital bank transactions using Hyperledger Composer Blockchain.
+# Finaura Bank 
+Complete fintech solution for your bank using blockchain. Digital bank transactions using Hyperledger Composer Blockchain.
 
 ## Pre-requisites
 
@@ -108,13 +107,13 @@ Hyperledger Fabric's instance.
 To install the business network, run the following command:
 
 ```
-composer network install --card PeerAdmin@hlfv1 --archiveFile dist/blockchain-bank.bna
+composer network install --card PeerAdmin@hlfv1 --archiveFile dist/finaura.bna
 ```
 
 To start the business network, run the following command:
 
 ```
-composer network start --networkName blockchain-bank --networkVersion 0.0.1 --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1 --file networkadmin.card
+composer network start --networkName finaura --networkVersion 0.0.1 --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1 --file networkadmin.card
 ```
 
 To import the network administrator identity as a usable business network card,
@@ -128,7 +127,7 @@ To check that the business network has been deployed successfully, run the
 following command to ping the network:
 
 ```
-composer network ping --card admin@blockchain-bank
+composer network ping --card admin@finaura
 ```
 
 ### Generating a REST server
@@ -137,8 +136,8 @@ Hyperledger Composer can generate a bespoke REST API based on a business
 network. For developing a web application, the REST API provides a useful layer
 of language-neutral abstraction.
 
-To create the REST API, navigate to the `blockchain-bank` directory and run the
-following command (enter `admin@blockchain-bank` as the card name):
+To create the REST API, navigate to the `finaura` directory and run the
+following command (enter `admin@finaura` as the card name):
 
 ```
 composer-rest-server

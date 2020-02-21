@@ -18,95 +18,95 @@ Feature: Sample
         Given I have deployed the business network definition ..
         And I have added the following participants of type org.example.blockchainbank.SampleParticipant
             | participantId   | firstName | lastName |
-            | alice@email.com | Alice     | A        |
-            | bob@email.com   | Bob       | B        |
+            | soniya@dfrozensoft.com | Soniya     | Dadhich        |
+            | dhanraj@dfrozensoft.com   | Dhanraj       | Dadhich        |
         And I have added the following assets of type org.example.blockchainbank.SampleAsset
             | assetId | owner           | value |
-            | 1       | alice@email.com | 10    |
-            | 2       | bob@email.com   | 20    |
-        And I have issued the participant org.example.blockchainbank.SampleParticipant#alice@email.com with the identity alice1
-        And I have issued the participant org.example.blockchainbank.SampleParticipant#bob@email.com with the identity bob1
+            | 1       | soniya@dfrozensoft.com | 10    |
+            | 2       | dhanraj@dfrozensoft.com   | 20    |
+        And I have issued the participant org.example.blockchainbank.SampleParticipant#soniya@dfrozensoft.com with the identity soniya1
+        And I have issued the participant org.example.blockchainbank.SampleParticipant#dhanraj@dfrozensoft.com with the identity dhanraj1
 
-    Scenario: Alice can read all of the assets
-        When I use the identity alice1
+    Scenario: Soniya can read all of the assets
+        When I use the identity soniya1
         Then I should have the following assets of type org.example.blockchainbank.SampleAsset
             | assetId | owner           | value |
-            | 1       | alice@email.com | 10    |
-            | 2       | bob@email.com   | 20    |
+            | 1       | soniya@dfrozensoft.com | 10    |
+            | 2       | dhanraj@dfrozensoft.com   | 20    |
 
-    Scenario: Bob can read all of the assets
-        When I use the identity alice1
+    Scenario: Dhanraj can read all of the assets
+        When I use the identity soniya1
         Then I should have the following assets of type org.example.blockchainbank.SampleAsset
             | assetId | owner           | value |
-            | 1       | alice@email.com | 10    |
-            | 2       | bob@email.com   | 20    |
+            | 1       | soniya@dfrozensoft.com | 10    |
+            | 2       | dhanraj@dfrozensoft.com   | 20    |
 
-    Scenario: Alice can add assets that she owns
-        When I use the identity alice1
+    Scenario: Soniya can add assets that she owns
+        When I use the identity soniya1
         And I add the following asset of type org.example.blockchainbank.SampleAsset
             | assetId | owner           | value |
-            | 3       | alice@email.com | 30    |
+            | 3       | soniya@dfrozensoft.com | 30    |
         Then I should have the following assets of type org.example.blockchainbank.SampleAsset
             | assetId | owner           | value |
-            | 3       | alice@email.com | 30    |
+            | 3       | soniya@dfrozensoft.com | 30    |
 
-    Scenario: Alice cannot add assets that Bob owns
-        When I use the identity alice1
+    Scenario: Soniya cannot add assets that Dhanraj owns
+        When I use the identity soniya1
         And I add the following asset of type org.example.blockchainbank.SampleAsset
             | assetId | owner           | value |
-            | 3       | bob@email.com   | 30    |
+            | 3       | dhanraj@dfrozensoft.com   | 30    |
         Then I should get an error matching /does not have .* access to resource/
 
-    Scenario: Bob can add assets that he owns
-        When I use the identity bob1
+    Scenario: Dhanraj can add assets that he owns
+        When I use the identity dhanraj1
         And I add the following asset of type org.example.blockchainbank.SampleAsset
             | assetId | owner           | value |
-            | 4       | bob@email.com   | 40    |
+            | 4       | dhanraj@dfrozensoft.com   | 40    |
         Then I should have the following assets of type org.example.blockchainbank.SampleAsset
             | assetId | owner           | value |
-            | 4       | bob@email.com   | 40    |
+            | 4       | dhanraj@dfrozensoft.com   | 40    |
 
-    Scenario: Bob cannot add assets that Alice owns
-        When I use the identity bob1
+    Scenario: Dhanraj cannot add assets that Soniya owns
+        When I use the identity dhanraj1
         And I add the following asset of type org.example.blockchainbank.SampleAsset
             | assetId | owner           | value |
-            | 4       | alice@email.com | 40    |
+            | 4       | soniya@dfrozensoft.com | 40    |
         Then I should get an error matching /does not have .* access to resource/
 
-    Scenario: Alice can update her assets
-        When I use the identity alice1
+    Scenario: Soniya can update her assets
+        When I use the identity soniya1
         And I update the following asset of type org.example.blockchainbank.SampleAsset
             | assetId | owner           | value |
-            | 1       | alice@email.com | 50    |
+            | 1       | soniya@dfrozensoft.com | 50    |
         Then I should have the following assets of type org.example.blockchainbank.SampleAsset
             | assetId | owner           | value |
-            | 1       | alice@email.com | 50    |
+            | 1       | soniya@dfrozensoft.com | 50    |
 
-    Scenario: Alice cannot update Bob's assets
-        When I use the identity alice1
+    Scenario: Soniya cannot update Dhanraj's assets
+        When I use the identity soniya1
         And I update the following asset of type org.example.blockchainbank.SampleAsset
             | assetId | owner           | value |
-            | 2       | bob@email.com   | 50    |
+            | 2       | dhanraj@dfrozensoft.com   | 50    |
         Then I should get an error matching /does not have .* access to resource/
 
-    Scenario: Bob can update his assets
-        When I use the identity bob1
+    Scenario: Dhanraj can update his assets
+        When I use the identity dhanraj1
         And I update the following asset of type org.example.blockchainbank.SampleAsset
             | assetId | owner         | value |
-            | 2       | bob@email.com | 60    |
+            | 2       | dhanraj@dfrozensoft.com | 60    |
         Then I should have the following assets of type org.example.blockchainbank.SampleAsset
             | assetId | owner         | value |
-            | 2       | bob@email.com | 60    |
+            | 2       | dhanraj@dfrozensoft.com | 60    |
 
-    Scenario: Bob cannot update Alice's assets
-        When I use the identity bob1
+    Scenario: Dhanraj cannot update Soniya's assets
+        When I use the identity dhanraj1
         And I update the following asset of type org.example.blockchainbank.SampleAsset
             | assetId | owner           | value |
-            | 1       | alice@email.com | 60    |
+            | 1       | soniya@dfrozensoft.com | 60    |
         Then I should get an error matching /does not have .* access to resource/
 
-    Scenario: Alice can remove her assets
-        When I use the identity alice1
+    Scenario: Soniya can remove her assets
+        When I use the identity soniya1
         And I remove the following asset of type org.example.blockchainbank.SampleAsset
             | assetId |
             | 1       |
@@ -114,15 +114,15 @@ Feature: Sample
             | assetId |
             | 1       |
 
-    Scenario: Alice cannot remove Bob's assets
-        When I use the identity alice1
+    Scenario: Soniya cannot remove Dhanraj's assets
+        When I use the identity soniya1
         And I remove the following asset of type org.example.blockchainbank.SampleAsset
             | assetId |
             | 2       |
         Then I should get an error matching /does not have .* access to resource/
 
-    Scenario: Bob can remove his assets
-        When I use the identity bob1
+    Scenario: Dhanraj can remove his assets
+        When I use the identity dhanraj1
         And I remove the following asset of type org.example.blockchainbank.SampleAsset
             | assetId |
             | 2       |
@@ -130,46 +130,46 @@ Feature: Sample
             | assetId |
             | 2       |
 
-    Scenario: Bob cannot remove Alice's assets
-        When I use the identity bob1
+    Scenario: Dhanraj cannot remove Soniya's assets
+        When I use the identity dhanraj1
         And I remove the following asset of type org.example.blockchainbank.SampleAsset
             | assetId |
             | 1       |
         Then I should get an error matching /does not have .* access to resource/
 
-    Scenario: Alice can submit a transaction for her assets
-        When I use the identity alice1
+    Scenario: Soniya can submit a transaction for her assets
+        When I use the identity soniya1
         And I submit the following transaction of type org.example.blockchainbank.SampleTransaction
             | asset | newValue |
             | 1     | 50       |
         Then I should have the following assets of type org.example.blockchainbank.SampleAsset
             | assetId | owner           | value |
-            | 1       | alice@email.com | 50    |
+            | 1       | soniya@dfrozensoft.com | 50    |
         And I should have received the following event of type org.example.blockchainbank.SampleEvent
             | asset   | oldValue | newValue |
             | 1       | 10       | 50       |
 
-    Scenario: Alice cannot submit a transaction for Bob's assets
-        When I use the identity alice1
+    Scenario: Soniya cannot submit a transaction for Dhanraj's assets
+        When I use the identity soniya1
         And I submit the following transaction of type org.example.blockchainbank.SampleTransaction
             | asset | newValue |
             | 2     | 50       |
         Then I should get an error matching /does not have .* access to resource/
 
-    Scenario: Bob can submit a transaction for his assets
-        When I use the identity bob1
+    Scenario: Dhanraj can submit a transaction for his assets
+        When I use the identity dhanraj1
         And I submit the following transaction of type org.example.blockchainbank.SampleTransaction
             | asset | newValue |
             | 2     | 60       |
         Then I should have the following assets of type org.example.blockchainbank.SampleAsset
             | assetId | owner         | value |
-            | 2       | bob@email.com | 60    |
+            | 2       | dhanraj@dfrozensoft.com | 60    |
         And I should have received the following event of type org.example.blockchainbank.SampleEvent
             | asset   | oldValue | newValue |
             | 2       | 20       | 60       |
 
-    Scenario: Bob cannot submit a transaction for Alice's assets
-        When I use the identity bob1
+    Scenario: Dhanraj cannot submit a transaction for Soniya's assets
+        When I use the identity dhanraj1
         And I submit the following transaction of type org.example.blockchainbank.SampleTransaction
             | asset | newValue |
             | 1     | 60       |

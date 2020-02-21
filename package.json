@@ -2,11 +2,11 @@
   "engines": {
     "composer": "^0.19.6"
   },
-  "name": "blockchain-bank",
+  "name": "finaura",
   "version": "0.0.1",
-  "description": "Blockchain Bank",
+  "description": "Finaura Bank is a complete fintech solution for your bank using blockchain.",
   "scripts": {
-    "prepublish": "composer archive create --sourceType dir --sourceName . -a ./blockchain-bank.bna",
+    "prepublish": "composer archive create --sourceType dir --sourceName . -a ./finaura.bna",
     "pretest": "npm run lint",
     "lint": "eslint .",
     "test": "nyc mocha -t 0 test/*.js && cucumber-js"
@@ -15,8 +15,8 @@
     "composer",
     "composer-network"
   ],
-  "author": "Filipe Corrêa",
-  "email": "filipecorrea@me.com",
+  "author": "Dhanraj Dadhich",
+  "email": "dhanraj@dfrozensoft.com",
   "license": "Apache-2.0",
   "devDependencies": {
     "chai": "latest",
